@@ -1,6 +1,4 @@
 <script lang="ts">
-  export const prerenderer = true;
-
   import "../app.css";
   import Matrix from "$lib/components/Matrix.svelte";
 
