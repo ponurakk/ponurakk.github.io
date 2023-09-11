@@ -1,12 +1,26 @@
 <script lang="ts">
+  import Fa from 'svelte-fa'
   import { projects } from '$lib/hooks'
+  import { faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
+
+  let scrollTop: number;
+  let element: HTMLDivElement;
+
+  function onScroll(event: Event) {
+    let target = event.target as HTMLDivElement;
+    scrollTop = target.scrollTop;
+  }
+
+  async function scrollToTop(node: HTMLDivElement) {
+    node.scroll({ top: 0, behavior: 'smooth' });
+  }
 </script>
 
 <svelte:head>
   <title>Projects</title>
 </svelte:head>
 
-<div class="snap-y snap-mandatory overflow-y-scroll scrollbar h-full w-full flex flex-col">
+<div class="snap-y snap-mandatory overflow-y-scroll scrollbar h-full w-full flex flex-col" on:scroll={onScroll} bind:this={element}>
   {#each projects as item}
     <div class="snap-start snap-always w-full h-full flex flex-col flex-10a">
       <div class="m-auto p-12 text-white w-96 relative">
@@ -39,4 +53,10 @@
     </div>
   {/each}
 </div>
+
+{#if scrollTop > 100}
+  <button class="absolute right-10 bottom-10" title="Scroll to Top" on:click={() => scrollToTop(element)}>
+    <Fa icon={faCircleChevronUp} class="text-4xl hover:text-neutral-700" />
+  </button>
+{/if}
 
