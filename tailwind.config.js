@@ -8,7 +8,7 @@ export default {
       },
       keyframes: {
         'noiseFadeout': {
-          '0%': { background: 'url("noise.gif")' },
+          '0%': { background: 'url("/noise.gif")' },
           '100%': { background: 'none' },
         }
       },
