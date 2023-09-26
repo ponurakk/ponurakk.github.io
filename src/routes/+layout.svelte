@@ -39,7 +39,7 @@
       {#if noiseLoad}
         <div class="noise before:absolute before:top-0 before:left-0 before:w-full before:h-full before:opacity-100 before:z-10 before:pointer-events-none before:animate-noise"></div>
       {/if}
-      <div class="p-2" style="height: calc(100% - 2rem)">
+      <div class="p-2 relative" style="height: calc(100% - 2rem)">
         <slot />
       </div>
     </div>

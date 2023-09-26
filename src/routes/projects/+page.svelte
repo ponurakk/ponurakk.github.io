@@ -3,12 +3,14 @@
   import { projects } from '$lib/hooks'
   import { faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
 
-  let scrollTop: number;
+  let scrollTop: number = 0;
+  let scrolled: boolean = false;
   let element: HTMLDivElement;
 
   function onScroll(event: Event) {
     let target = event.target as HTMLDivElement;
     scrollTop = target.scrollTop;
+    scrolled = true;
   }
 
   async function scrollToTop(node: HTMLDivElement) {
@@ -20,7 +22,7 @@
   <title>Projects</title>
 </svelte:head>
 
-<div class="snap-y snap-mandatory overflow-y-scroll scrollbar h-full w-full flex flex-col" on:scroll={onScroll} bind:this={element}>
+<div class="snap-y snap-mandatory overflow-y-scroll h-full w-full flex flex-col container-wrapper" bind:this={element} on:scroll={onScroll}>
   {#each projects as item}
     <div class="snap-start snap-always w-full h-full flex flex-col flex-10a">
       <div class="m-auto p-12 text-white w-96 relative">
@@ -54,9 +56,30 @@
   {/each}
 </div>
 
+<div class="absolute right-10 bottom-1/2 translate-y-1/2 transition-opacity duration-200" class:opacity-0={scrolled}>
+  <svg width="50px" height="100px" version="1.1" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <g class="ldl-scale">
+      <path fill="none" d="M39.3 13.1h-.9v8.4c-.9-.3-1.8-.4-2.7-.4h-.1c-1 0-1.9.2-2.7.4v-8.4H32c-9.3 0-16.8 7.5-16.8 16.8v7.9h11.6v5.6H15v22.9c0 11.1 9 20.3 20.2 20.5h.4c5.4 0 10.6-2.2 14.5-6.2 3.9-4 6.1-9.3 6.1-14.8V43.5H44.5v-5.6h11.6V30c0-9.4-7.5-16.9-16.8-16.9zm1.9 33.2c0 3.1-2.5 5.6-5.6 5.6h-.1c-3.1 0-5.6-2.5-5.6-5.6V30c0-3.1 2.5-5.6 5.6-5.6h.1c3.1 0 5.6 2.5 5.6 5.6v16.3z"/>
+      <g>
+        <path fill="#fff" class="animate-bounce-fade" d="M35.6 24.4h-.1c-3.1 0-5.6 2.5-5.6 5.6v16.3c0 3.1 2.5 5.6 5.6 5.6h.1c3.1 0 5.6-2.5 5.6-5.6V30c0-3.1-2.5-5.6-5.6-5.6z"/>
+        <path fill="#fff" d="m39.3 7.5h-7.4c-12.4 0-22.5 10.1-22.5 22.4v36.4c0 14.2 11.5 25.9 25.6 26.1h0.5c7 0 13.6-2.8 18.5-7.9s7.6-11.7 7.6-18.7v-35.9c0.1-12.3-9.9-22.4-22.3-22.4zm16.8 58.4c0 5.6-2.2 10.8-6.1 14.8s-9.1 6.2-14.5 6.2h-0.4c-11-0.2-20.1-9.4-20.1-20.6v-36.3c0-23.057 40.9-23.057 40.9 0z"/>
+        <path fill="#fff" class="" d="M81.8 22.2h8.8L78.4 10 66.2 22.2h8.9v55.6h-8.9L78.4 90l12.2-12.2h-8.8z"/>
+      </g>
+    </g>
+  </svg>
+</div>
+
 {#if scrollTop > 100}
   <button class="absolute right-10 bottom-10" title="Scroll to Top" on:click={() => scrollToTop(element)}>
     <Fa icon={faCircleChevronUp} class="text-4xl hover:text-neutral-700" />
   </button>
 {/if}
+
+<style>
+.container-wrapper {
+  overflow: auto;
+  -ms-overflow-style: none; /* IE 11 */
+  scrollbar-width: none;
+}
+</style>
 
